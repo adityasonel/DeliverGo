@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="4dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginBottom="4dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    android:id="@+id/item_main_view"
+    android:background="?attr/selectableItemBackground"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.adityasonel.delivergo.ui.CircleImageView
+            android:id="@+id/item_image"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_trolley"
+            android:layout_marginEnd="8dp"
+            android:layout_centerVertical="true"
+            android:layout_width="38dp"
+            android:layout_height="38dp" />
+
+        <TextView
+            android:id="@+id/item_description"
+            android:text="@string/lorem_ipsum_description"
+            android:layout_toEndOf="@id/item_image"
+            android:textSize="16sp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:paddingTop="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/item_location"
+            android:text="@string/lorem_ipsum_location"
+            android:layout_below="@id/item_description"
+            android:layout_toEndOf="@id/item_image"
+            android:paddingBottom="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

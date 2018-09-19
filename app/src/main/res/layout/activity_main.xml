@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.SwipeRefreshLayout
+    android:id="@+id/swipe_refresh_layout"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <android.support.v4.widget.NestedScrollView
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:fillViewport="true"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+        <RelativeLayout
+            android:id="@+id/parent_layout_activity_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            xmlns:tools="http://schemas.android.com/tools"
+            tools:context=".activity.MainActivity"
+            android:background="@drawable/gradient_activity_main"
+            xmlns:android="http://schemas.android.com/apk/res/android">
+
+            <TextView
+                android:id="@+id/things_deliver_text"
+                android:textColor="@android:color/white"
+                android:text="@string/thing_to_deliver"
+                android:textSize="22sp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:layout_marginBottom="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/error_image"
+                android:visibility="gone"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_error_outline_red"
+                android:layout_width="32dp"
+                android:layout_height="32dp" />
+            <TextView
+                android:id="@+id/error_text"
+                android:visibility="gone"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/error_image"
+                android:textColor="@android:color/holo_red_light"
+                android:text="@string/error_fetch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/main_recycler_view"
+                android:nestedScrollingEnabled="false"
+                android:layoutAnimation="@anim/layout_animation_fall_down"
+                android:overScrollMode="never"
+                android:layout_below="@+id/things_deliver_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
+</android.support.v4.widget.SwipeRefreshLayout>

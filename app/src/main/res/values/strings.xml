@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">DeliverGo</string>
+
+    <string name="thing_to_deliver">Things to Deliver!</string>
+    <string name="delivery_details">Delivery Details!</string>
+
+    <string name="lorem_ipsum_description">Deliver documents to Andrio</string>
+    <string name="lorem_ipsum_location">Cheung Sha Wan</string>
+
+    <string name="error_fetch">Error while fetching data, retry again!</string>
+    <string name="error_description">Error while retreving description of this item!</string>
+    <string name="error_address">Error while retreving address of this item!</string>
+
+    <string name="user_bottom_sheet_behavior" translatable="false">com.adityasonel.delivergo.ui.UserLockBottomSheetBehavior</string>
+</resources>

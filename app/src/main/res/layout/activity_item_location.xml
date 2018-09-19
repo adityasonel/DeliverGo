@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/parent_main_layout"
+    android:background="@drawable/gradient_activity_item_location"
+    tools:context=".activity.ItemLocationActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <fragment
+            android:id="@+id/map_fragment"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/delivery_details_text"
+            android:textColor="@android:color/white"
+            android:text="@string/delivery_details"
+            android:drawableStart="@drawable/ic_arrow_back_white_24dp"
+            android:textSize="22sp"
+            android:paddingStart="16dp"
+            android:drawablePadding="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="16dp"
+            android:background="@drawable/background_activity_item_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="titleText"/>
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/bottomsheet_parent_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:behavior_peekHeight="0dp"
+        app:layout_behavior="@string/user_bottom_sheet_behavior"
+        android:onClick="bottomsheetParentLayout">
+        <include
+            layout="@layout/item_main_recycler_view" />
+    </FrameLayout>
+</android.support.design.widget.CoordinatorLayout>

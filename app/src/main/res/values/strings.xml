@@ -12,4 +12,6 @@
     <string name="error_address">Error while retreving address of this item!</string>
 
     <string name="user_bottom_sheet_behavior" translatable="false">com.adityasonel.delivergo.ui.UserLockBottomSheetBehavior</string>
+    
+    <string name="sync_atleast_once">"You have to sync data atleast once!"</string>
 </resources>

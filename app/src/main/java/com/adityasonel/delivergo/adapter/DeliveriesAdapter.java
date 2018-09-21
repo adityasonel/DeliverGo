@@ -16,19 +16,21 @@ import android.widget.Toast;
 
 import com.adityasonel.delivergo.R;
 import com.adityasonel.delivergo.activity.ItemLocationActivity;
+import com.adityasonel.delivergo.model.DeliveryItemPOJO;
 import com.adityasonel.delivergo.model.DeliveryModel;
 import com.adityasonel.delivergo.ui.CircleImageView;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DeliveriesAdapter extends RecyclerView.Adapter<DeliveriesAdapter.ItemViewHolder> {
 
-    private ArrayList<DeliveryModel> list;
+    private List<DeliveryItemPOJO> list;
     private Context mContext;
     private Activity mActivity;
 
-    public DeliveriesAdapter(ArrayList<DeliveryModel> list, Context mContext, Activity mActivity) {
+    public DeliveriesAdapter(List<DeliveryItemPOJO> list, Context mContext, Activity mActivity) {
         this.list = list;
         this.mContext = mContext;
         this.mActivity = mActivity;
@@ -42,15 +44,15 @@ public class DeliveriesAdapter extends RecyclerView.Adapter<DeliveriesAdapter.It
 
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder itemViewHolder, int i) {
-        final DeliveryModel model = list.get(i);
+        final DeliveryItemPOJO model = list.get(i);
 
         if (!model.getDescription().equals("")) {
             itemViewHolder.itemDescription.setText(model.getDescription());
         } else {
             itemViewHolder.itemDescription.setText(mContext.getResources().getString(R.string.error_description));
         }
-        if (!model.getAddress().equals("")) {
-            itemViewHolder.itemLocation.setText(model.getAddress());
+        if (!model.getLocation().get(0).getAddress().equals("")) {
+            itemViewHolder.itemLocation.setText(model.getLocation().get(0).getAddress());
         } else {
             itemViewHolder.itemLocation.setText(mContext.getResources().getString(R.string.error_address));
         }
@@ -64,9 +66,9 @@ public class DeliveriesAdapter extends RecyclerView.Adapter<DeliveriesAdapter.It
             public void onClick(View view) {
                 Intent intent = new Intent(mActivity, ItemLocationActivity.class);
                 intent.putExtra("description", model.getDescription());
-                intent.putExtra("address", model.getAddress());
-                intent.putExtra("lat", model.getLat());
-                intent.putExtra("lng", model.getLng());
+                intent.putExtra("address", model.getLocation().get(0).getAddress());
+                intent.putExtra("lat", model.getLocation().get(0).getLat());
+                intent.putExtra("lng", model.getLocation().get(0).getLng());
                 intent.putExtra("imageUrl", model.getImageUrl());
                 mActivity.startActivity(intent);
             }

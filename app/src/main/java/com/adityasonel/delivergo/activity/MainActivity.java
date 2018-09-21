@@ -13,11 +13,15 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.adityasonel.delivergo.R;
 import com.adityasonel.delivergo.adapter.DeliveriesAdapter;
+import com.adityasonel.delivergo.db.RealmManager;
+import com.adityasonel.delivergo.model.DeliveryItemPOJO;
 import com.adityasonel.delivergo.model.DeliveryModel;
 import com.adityasonel.delivergo.util.Config;
+import com.adityasonel.delivergo.util.Utils;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -28,6 +32,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import io.realm.Realm;
+import io.realm.RealmChangeListener;
+import io.realm.RealmResults;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,8 +51,10 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean isErrorOccured = false;
 
-    private ArrayList<DeliveryModel> list = new ArrayList<>();
+    private List<DeliveryItemPOJO> list = new ArrayList<>();
     private DeliveriesAdapter adapter;
+
+    private RealmManager realmManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
         setTheme(R.style.AppTheme);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         setContentView(R.layout.activity_main);
+
+        realmManager = RealmManager.getInstance(this);
 
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
         parentLayout = findViewById(R.id.parent_layout_activity_main);
@@ -61,7 +74,21 @@ public class MainActivity extends AppCompatActivity {
         errorText = findViewById(R.id.error_text);
         recyclerView = findViewById(R.id.main_recycler_view);
 
-        performNetworkCall();
+        if (!Utils.isNetworkAvailable(this)) {
+            Toast.makeText(this,
+                    "Loading cached data...", Toast.LENGTH_SHORT).show();
+            if (realmManager.getRealm().isEmpty()) {
+                progressBar.setVisibility(View.GONE);
+                errorImage.setVisibility(View.VISIBLE);
+                errorText.setVisibility(View.VISIBLE);
+                errorText.setText(getString(R.string.sync_atleast_once));
+            } else {
+                loadCachedData();
+            }
+        } else {
+            performNetworkCall();
+        }
+
 
         adapter = new DeliveriesAdapter(list, MainActivity.this, MainActivity.this);
         LinearLayoutManager manager = new LinearLayoutManager(MainActivity.this);
@@ -73,8 +100,12 @@ public class MainActivity extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if (isErrorOccured) {
-                    performNetworkCall();
+                if (Utils.isNetworkAvailable(MainActivity.this)) {
+                    if (isErrorOccured) {
+                        performNetworkCall();
+                    }
+                } else {
+                    loadCachedData();
                 }
                 swipeRefreshLayout.setRefreshing(true);
                 new Handler().postDelayed(new Runnable() {
@@ -88,7 +119,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void performNetworkCall() {
-        list.clear();
         final StringRequest request = new StringRequest(
                 Request.Method.GET,
                 Config.getMockApiUrl("0", "20"),
@@ -100,11 +130,17 @@ public class MainActivity extends AppCompatActivity {
                         errorText.setVisibility(View.GONE);
                         try {
                             JSONArray array = new JSONArray(response);
+
                             for (int i = 0; i < array.length(); i++) {
-                                DeliveryModel model = new DeliveryModel(array.optJSONObject(i));
+                                DeliveryItemPOJO model = new DeliveryItemPOJO(array.optJSONObject(i));
                                 list.add(model);
                                 adapter.notifyItemInserted(i);
                                 progressBar.setVisibility(View.GONE);
+
+                                if (realmManager.getRealm().isEmpty()) {
+                                    final DeliveryItemPOJO itemPOJO = new DeliveryItemPOJO(array.optJSONObject(i));
+                                    realmManager.setDeliveryItemData(itemPOJO);
+                                }
                             }
                         } catch (JSONException e) {
                             Log.i(TAG, "json exception: " + e);
@@ -122,6 +158,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
         Volley.newRequestQueue(MainActivity.this).add(request);
+    }
+
+    private void loadCachedData() {
+        if (!realmManager.getRealm().isEmpty()) {
+            progressBar.setVisibility(View.GONE);
+            list = realmManager.getDeliveryItems();
+        }
     }
 
     int getStatusBarHeight() {

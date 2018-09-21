@@ -38,8 +38,8 @@ public class ItemLocationActivity extends AppCompatActivity implements OnMapRead
         setContentView(R.layout.activity_item_location);
 
         if (getIntent() != null) {
-            lat = Double.valueOf(getIntent().getStringExtra("lat"));
-            lng = Double.valueOf(getIntent().getStringExtra("lng"));
+            lat = getIntent().getDoubleExtra("lat", 0.0);
+            lng = getIntent().getDoubleExtra("lng", 0.0);
             address = getIntent().getStringExtra("address");
             description = getIntent().getStringExtra("description");
             imageUrl = getIntent().getStringExtra("imageUrl");

@@ -19,7 +19,6 @@ import com.adityasonel.delivergo.R;
 import com.adityasonel.delivergo.adapter.DeliveriesAdapter;
 import com.adityasonel.delivergo.db.RealmManager;
 import com.adityasonel.delivergo.model.DeliveryItemPOJO;
-import com.adityasonel.delivergo.model.DeliveryModel;
 import com.adityasonel.delivergo.util.Config;
 import com.adityasonel.delivergo.util.Utils;
 import com.android.volley.Request;
@@ -33,10 +32,6 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import io.realm.Realm;
-import io.realm.RealmChangeListener;
-import io.realm.RealmResults;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -88,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             performNetworkCall();
         }
-
 
         adapter = new DeliveriesAdapter(list, MainActivity.this, MainActivity.this);
         LinearLayoutManager manager = new LinearLayoutManager(MainActivity.this);

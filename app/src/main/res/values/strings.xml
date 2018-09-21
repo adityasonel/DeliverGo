@@ -7,7 +7,7 @@
     <string name="lorem_ipsum_description">Deliver documents to Andrio</string>
     <string name="lorem_ipsum_location">Cheung Sha Wan</string>
 
-    <string name="error_fetch">Error while fetching data, retry again!</string>
+    <string name="error_fetch">Error while fetching data, swipe down to retry again!</string>
     <string name="error_description">Error while retreving description of this item!</string>
     <string name="error_address">Error while retreving address of this item!</string>
 

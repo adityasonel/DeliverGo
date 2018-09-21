@@ -1,6 +1,5 @@
 package com.adityasonel.delivergo.activity;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -9,19 +8,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.adityasonel.delivergo.R;
 import com.adityasonel.delivergo.adapter.DeliveriesAdapter;
 import com.adityasonel.delivergo.model.DeliveryModel;
-import com.adityasonel.delivergo.ui.RecyclerViewItemDivider;
 import com.adityasonel.delivergo.util.Config;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -36,7 +31,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-//    private static final String TAG = MainActivity.class.getName();
+    private static final String TAG = MainActivity.class.getName();
 
     private ProgressBar progressBar;
     private ImageView errorImage;
@@ -110,10 +105,9 @@ public class MainActivity extends AppCompatActivity {
                                 list.add(model);
                                 adapter.notifyItemInserted(i);
                                 progressBar.setVisibility(View.GONE);
-                                Log.i("xoxo", array.optJSONObject(i).optString("description") + "");
                             }
                         } catch (JSONException e) {
-                            Log.i("xoxo", "json exception: " + e);
+                            Log.i(TAG, "json exception: " + e);
                         }
                         isErrorOccured = false;
                     }
@@ -123,9 +117,6 @@ public class MainActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
                 errorImage.setVisibility(View.VISIBLE);
                 errorText.setVisibility(View.VISIBLE);
-                if (error != null) {
-                    Log.i("xoxo", "onErrorResponse: " + error);
-                }
                 isErrorOccured = true;
             }
         });
